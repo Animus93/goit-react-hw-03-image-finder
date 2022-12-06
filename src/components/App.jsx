@@ -4,7 +4,7 @@ import { Searchbar } from './Searchbar/Searchbar';
 import { ImageGallery } from './ImageGallery/ImageGallery';
 import { Button } from './Button/Button';
 import { FallingLines } from 'react-loader-spinner';
-import { Modal } from './Modal/Modal';
+// import { Modal } from './Modal/Modal';
 
 export class App extends React.Component {
   state = {
@@ -25,13 +25,6 @@ export class App extends React.Component {
       page: prevState.page + 1,
     }));
   };
-  //
-
-  // this.setState(prevState => ({
-  //   galleryArray: [...prevState.galleryArray, ...data],
-  // }));
-
-  //
 
   onSwitchLoader = value => {
     console.log(value);
