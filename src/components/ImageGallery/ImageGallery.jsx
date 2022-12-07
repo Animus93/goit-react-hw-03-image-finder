@@ -6,33 +6,34 @@ import { FallingLines } from 'react-loader-spinner';
 
 export class ImageGallery extends React.Component {
   state = {
-    galleryArray: [],
-    value: 1,
     img: '',
+    galleryArray: [],
   };
 
   componentDidMount() {
     this.onStateUpdate();
-  }
+  };
 
   componentDidUpdate(prevProps, prevState) {
-    console.log('IMG GALERY componentDidUpdate')
-    if (prevProps !== this.props) {
-      if (prevProps.valueToSerch !== this.props.valueToSerch) {
-        this.setState({ galleryArray: [] });
-      }
+    if (prevProps.valueToSerch !== this.props.valueToSerch) {
+      this.setState({ galleryArray: [] });
       return this.onStateUpdate();
-    }
-    if(this.state.img && prevState.img !== this.state.img){
-      console.log('send')
-      this.props.clickHandler(this.state.img)
-      // this.setState({img: ''})
-    }
-  }
+    };
 
-  onStateUpdate = () => {
-    const { valueToSerch, page } = this.props;
-    ImageGalleryApi.fetchImages(page, valueToSerch)
+    if (prevProps.page !== this.props.page) {
+      this.onStateUpdate();
+    };
+
+    if (this.state.img && prevState.img !== this.state.img) {
+      this.props.clickHandler(this.state.img);
+      this.setState({ img: '' });
+    };
+  };
+
+  onStateUpdate = async () => {
+    const { valueToSerch, page, appIsLoading } = this.props;
+    await appIsLoading(true); 
+   await ImageGalleryApi.fetchImages(page, valueToSerch)
       .then(data => {
         if (data) {
           return this.setState(prevState => ({
@@ -48,15 +49,14 @@ export class ImageGallery extends React.Component {
       .catch(error => {
         this.setState({ error: error.message });
       });
+   await appIsLoading(false);
   };
 
-  clickHandler = (data) => {
-    console.log(data)
-    return this.setState({img: data});
-  }
+  clickHandler = data => {
+    return this.setState({ img: data });
+  };
 
   render() {
-    console.log('render')
     return (
       <Fragment>
         {Boolean(this.state.galleryArray.length) && 
@@ -66,7 +66,7 @@ export class ImageGallery extends React.Component {
               return (
                 <ImageGalleryItem
                   key={img.id}
-                  id={img.id}
+                  // id={img.id}
                   clickHandler={this.clickHandler}
                   webformatURL={img.webformatURL}
                   largeImageURL={img.largeImageURL}

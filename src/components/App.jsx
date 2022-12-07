@@ -4,7 +4,7 @@ import { Searchbar } from './Searchbar/Searchbar';
 import { ImageGallery } from './ImageGallery/ImageGallery';
 import { Button } from './Button/Button';
 import { FallingLines } from 'react-loader-spinner';
-// import { Modal } from './Modal/Modal';
+import { Modal } from './Modal/Modal';
 
 export class App extends React.Component {
   state = {
@@ -17,6 +17,7 @@ export class App extends React.Component {
   onUpdateSerchValue = value => {
     this.setState({
       valueToSerch: value,
+      page: 1
     });
   };
 
@@ -27,12 +28,10 @@ export class App extends React.Component {
   };
 
   onSwitchLoader = value => {
-    console.log(value);
-    // this.setState({isLoading: value})
+    this.setState({ isLoading: value });
   };
 
   onImgListner = data => {
-    console.log(data, 'APP')
     this.setState({ largeImg: data });
   };
 
@@ -48,8 +47,10 @@ export class App extends React.Component {
               appIsLoading={this.onSwitchLoader}
               clickHandler={this.onImgListner}
             />
-            <Button id="LoadMoreBtn" onClick={this.onSerchMoreBtn} />
           </Fragment>
+        )}
+        {!this.state.isLoading && this.state.valueToSerch && (
+          <Button id="LoadMoreBtn" onClick={this.onSerchMoreBtn} />
         )}
         {this.state.isLoading && (
           <div className={styles.FallingLines}>
@@ -61,7 +62,12 @@ export class App extends React.Component {
             />
           </div>
         )}
-        {/* <Modal/> */}
+        {this.state.largeImg && 
+        <Modal
+        largeImg = {this.state.largeImg}
+        clickHandler={this.onImgListner}
+        />
+        }
       </Fragment>
     );
   }

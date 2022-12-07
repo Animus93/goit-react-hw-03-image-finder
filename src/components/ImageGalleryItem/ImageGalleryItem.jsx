@@ -6,20 +6,14 @@ export const ImageGalleryItem = ({
   tags,
   largeImageURL,
   clickHandler,
-  id,
 }) => {
   return (
     <li
-      onClick={() => {
-        clickHandler(largeImageURL);
-      }}
-      // key={id}
       className={styles.ImageGalleryItem}
     >
       <img
+      onClick={()=>{clickHandler(largeImageURL)}}
         className={styles.ImageGalleryItemImage}
-        // key={id}
-        href={largeImageURL}
         src={webformatURL}
         alt={tags}
       />

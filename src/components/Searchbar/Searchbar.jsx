@@ -32,7 +32,6 @@ export class Searchbar extends React.Component {
             type="text"
             autoComplete="off"
             value = {this.state.value}
-            // autoFcus
             placeholder="Search images and photos"
           />
         </form>
