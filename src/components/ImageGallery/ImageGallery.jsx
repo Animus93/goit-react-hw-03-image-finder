@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 import { ImageGalleryItem } from '../ImageGalleryItem/ImageGalleryItem';
 import styles from './ImageGallery.module.css';
-import ImageGalleryApi from '../../services/ImageGallery-api';
+import {fetchImages} from '../../services/ImageGallery-api';
 import { FallingLines } from 'react-loader-spinner';
 
 export class ImageGallery extends React.Component {
@@ -33,7 +33,7 @@ export class ImageGallery extends React.Component {
   onStateUpdate = async () => {
     const { valueToSerch, page, appIsLoading } = this.props;
     await appIsLoading(true); 
-   await ImageGalleryApi.fetchImages(page, valueToSerch)
+   await fetchImages(page, valueToSerch)
       .then(data => {
         if (data) {
           return this.setState(prevState => ({
